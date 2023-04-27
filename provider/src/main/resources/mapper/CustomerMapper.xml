@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hack.provider.mapper.CustomerMapper">
+
+    <resultMap id="BaseResultMap" type="com.hack.feign.entity.Customer">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="captainId" column="captain_id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+            <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,captain_id,name,
+        phone,created_time,updated_time
+    </sql>
+    <!--    根据团长的名字找到管理下的客户们-->
+    <select id="getCustomerByCaptainName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM customer c1
+                 INNER JOIN captain c2 ON c1.captain_id = c2.id
+        WHERE c2.name = #{name}
+    </select>
+
+    <!-- 添加顾客 -->
+    <insert id="addCustomer" parameterType="com.hack.feign.entity.Customer">
+        INSERT INTO customer (name, phone,captain_id)
+        VALUES (#{name}, #{phone},#{captainId})
+    </insert>
+
+    <!--    根据名字查找顾客-->
+    <select id="getCustomerByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from customer where name = #{name}
+    </select>
+    <select id="findOneByCaptainId" resultType="com.hack.feign.entity.Customer" parameterType="int">
+        select * from customer where captain_id = #{captainId}
+    </select>
+
+</mapper>

@@ -1,0 +1,17 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: consumer
+#  profiles:
+#    active: dev
+# 配置集群
+#  cloud:
+#    nacos:
+#      discovery:
+#        cluster-name: LC
+
+#配置Nacos负载均衡，使优先访问本地集群。
+#provider:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule

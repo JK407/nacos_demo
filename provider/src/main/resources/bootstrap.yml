@@ -1,0 +1,30 @@
+server:
+  port: 9994
+spring:
+  application:
+    name: provider
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+#        cluster-name: LC2 # 配置集群名称
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+        username: nacos #nacos用户名
+        password: nacos #nacos密码
+        namespace: d38ea25d-a97a-4c4c-8273-1798bacaadb6
+        group: dev
+        extension-configs[0]:
+          data-id: provider-dev-mysql.yaml
+          group: dev
+          refresh: true
+
+        extension-configs[1]:
+          data-id: provider-dev-mybatis.yaml
+          group: dev
+          refresh: true
+
+

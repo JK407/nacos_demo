@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hack.provider.mapper.CaptainMapper">
+
+    <resultMap id="BaseResultMap" type="com.hack.feign.entity.Captain">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="merchantId" column="merchant_id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="commissionRate" column="commission_rate" jdbcType="DECIMAL"/>
+            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+            <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,merchant_id,name,
+        phone,commission_rate,created_time,
+        updated_time
+    </sql>
+<!--    根据商家的名字找到管理下的团长们-->
+    <select id="getCaptainsByMerchantName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM captain c
+                 INNER JOIN merchant m ON c.merchant_id = m.id
+        WHERE m.name = #{name}
+    </select>
+
+    <!-- 添加团长 -->
+    <insert id="addCaptain" parameterType="com.hack.feign.entity.Captain">
+        INSERT INTO captain (name, phone,commission_rate ,merchant_id)
+        VALUES (#{name}, #{phone},#{commissionRate},#{merchantId})
+    </insert>
+
+<!--    根据名字查找团长-->
+    <select id="getCaptainByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from captain where name = #{name}
+    </select>
+    <select id="findOneByMerchantId" resultType="com.hack.feign.entity.Captain" parameterType="int">
+        select * from captain where merchant_id = #{merchantId}
+    </select>
+
+</mapper>
